@@ -1,0 +1,13 @@
+timestamp=$(date +"%Y%m%d%H%M%S")
+docker build -t rajani:$timestamp .
+container_id=$(docker ps -q --filter "publish=8081")
+
+
+# Check if a container ID was found and stop the container
+if [ -n "$container_id" ]; then
+    docker stop $container_id
+    echo "Container running on port 8081 has been stopped."
+else
+    echo "No container is running on port 8081."
+fi
+docker run -d -p 8081:5000 rajani:$timestamp
